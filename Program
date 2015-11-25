@@ -1,0 +1,95 @@
+#include <iostream>
+using namespace std;
+
+class Account{
+public:
+	Account();
+	Account(double initialBalance);
+	double getBalance();
+	void deposit(double amount);
+	void withdraw(double amount);
+private:
+	double balance;
+};
+
+Account::Account(){
+	balance = 0;
+}
+
+Account::Account(double initialBalance){
+	if (initialBalance < 0){
+		cout << "Warning: Initial balance cannot be negative. Account with $0 created." << endl;
+		initialBalance = 0;
+	}
+	balance = initialBalance;
+}
+
+double Account::getBalance(){
+	return balance;
+}
+
+void Account::deposit(double amount){
+	if (amount < 0){
+		cout << "Warning: amount cannot be negative. No deposit made." << endl;
+		return;
+	}
+	balance += amount;
+}
+
+void Account::withdraw(double amount){
+	const double penalty = 5;
+
+	if (amount < 0){
+		cout << "Warning: amount cannot be negative. No deposit made." << endl;
+		return;
+	}
+	
+
+	if (balance < amount){
+		balance -= penalty;
+		cout << "Warning: insufficient funds; transaction denied. $5 penalty charged." << endl;
+	}
+	else {
+		balance -= amount;
+	}
+}
+
+int main(){
+
+	cout << "Creating acount using no-arg constructor." << endl;
+	Account a1 =  Account();
+	cout << "Balance: " << a1.getBalance() << endl;
+	cout << endl;
+
+	cout << "Creating acount using one-arg constructor; balance = -10." << endl;
+	Account a2 = Account(-10);
+	cout << "Balance: " << a2.getBalance() << endl;
+	cout << endl;
+	
+	cout << "Creating acount using one-arg constructor; balance = 10." << endl;
+	Account a3(10);
+	cout << "Balance: " << a3.getBalance() << endl;
+	cout << endl;
+
+	cout << "Attempting to deposit -5." << endl;
+	a3.deposit(-5);
+	cout << "Balance: " << a3.getBalance() << endl;
+
+	cout << "Attempting to deposit 5." << endl;
+	a3.deposit(5);
+	cout << "Balance: " << a3.getBalance() << endl;
+
+	cout << "Attempting to withdraw -10." << endl;
+	a3.withdraw(-10);
+	cout << "Balance: " << a3.getBalance() << endl;
+
+	cout << "Attempting to withdraw 10." << endl;
+	a3.withdraw(10);
+	cout << "Balance: " << a3.getBalance() << endl;
+
+	cout << "Attempting to withdraw 10." << endl;
+	a3.withdraw(10);
+	cout << "Balance: " << a3.getBalance() << endl;
+
+	return 0;
+}
